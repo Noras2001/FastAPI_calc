@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор</h1>
+        <form id="calculatorForm">
+            <input type="number" id="number1" placeholder="Введите первое число" required>
+            <input type="number" id="number2" placeholder="Введите второе число" required>
+            <button type="button" onclick="performOperation('add')">Сложить</button>
+            <button type="button" onclick="performOperation('subtract')">Вычесть</button>
+            <button type="button" onclick="performOperation('multiply')">Умножить</button>
+            <button type="button" onclick="performOperation('divide')">Делить</button>
+        </form>
+        <h2 id="result">Результат: </h2>
+    </div>
+    <script>
+        async function performOperation(operation) {
+            const number1 = parseFloat(document.getElementById('number1').value);
+            const number2 = parseFloat(document.getElementById('number2').value);
+
+            const response = await fetch(`/${operation}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ number1, number2 })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                document.getElementById('result').innerText = `Результат: ${data.result}`;
+            } else {
+                document.getElementById('result').innerText = `Ошибка: ${data.detail}`;
+            }
+        }
+    </script>
+</body>
+</html>
