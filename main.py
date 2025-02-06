@@ -48,4 +48,5 @@ async def divide_numbers(request: CalculationRequest):
     return {"operation": "division", "result": result}
 
 # Запуск приложения происходит с помощью Uvicorn, например:
-# uvicorn main:app --reload
+# uvicorn main:app --reload --port 5000
+# uvicorn main:app 
